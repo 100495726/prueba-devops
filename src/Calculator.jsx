@@ -41,6 +41,14 @@ function Calculator() {
       const currentValue = previousValue || 0;
       const newValue = calculate(currentValue, inputValue, operation);
 
+      if (newValue === 'Error') {
+        setDisplay('Error');
+        setPreviousValue(null);
+        setOperation(null);
+        setWaitingForOperand(true);
+        return;
+      }
+
       setDisplay(String(newValue));
       setPreviousValue(newValue);
     }
@@ -58,6 +66,9 @@ function Calculator() {
       case '*':
         return firstValue * secondValue;
       case '/':
+        if (secondValue === 0) {
+          return 'Error';
+        }
         return firstValue / secondValue;
       case '=':
         return secondValue;
@@ -71,6 +82,15 @@ function Calculator() {
 
     if (previousValue !== null && operation) {
       const newValue = calculate(previousValue, inputValue, operation);
+      
+      if (newValue === 'Error') {
+        setDisplay('Error');
+        setPreviousValue(null);
+        setOperation(null);
+        setWaitingForOperand(true);
+        return;
+      }
+      
       setDisplay(String(newValue));
       setPreviousValue(null);
       setOperation(null);
